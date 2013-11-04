@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+# -*- coding: binary -*-
+
+module Rex
+module Post
+module Meterpreter
+module Extensions
+
+###
+#
+# Standard ruby interface to remote entities for meterpreter.  It provides
+# basic access to files, network, system, and other properties of the remote
+# machine that are fairly universal.
+#
+###
+class Jscrunner < Extension
+
+	#
+	# Initializes the privilege escalationextension.
+	#
+	def initialize(client)
+		super(client, 'jscrunner')
+
+		client.register_extension_aliases(
+			[
+				{
+					'name' => 'jscrunner',
+					'ext'  => self
+				},
+			])
+
+		# Initialize sub-classes
+		self.fs = Fs.new(client)
+	end
+
+	#
+	# Executes an application using the arguments provided
+	#
+	#
+	def Process.execute(arg1)
+		request = Packet.create_request('jscrunner_execute')
+		flags   = 0
+
+		request.add_tlv(TLV_TYPE_STRING, arg1 );
+
+		response = client.send_request(request)
+
+		# Get the response parameters
+		{
+			'Result'          => response.get_tlv_value(TLV_TYPE_RESULT),
+		}
+
+	end
+end
+
+end; end; end; end; end

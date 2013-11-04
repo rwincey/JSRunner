@@ -1,0 +1,3 @@
+write ruby logic in lib/rex/post/meterpreter/extensions
+write ui in lib/rex/post/meterpreter/ui/console/command_dispatcher
+drop extension in data/meterpreter
